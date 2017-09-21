@@ -2,6 +2,7 @@ package fin.fin;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,11 +10,16 @@ import android.widget.Button;
 
 import javax.inject.Inject;
 
-import dagger.android.DaggerFragment;
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.support.HasSupportFragmentInjector;
 
-public class ConnectFragment extends DaggerFragment {
+public class ConnectFragment extends Fragment implements HasSupportFragmentInjector, Injectable {
 
     Button button;
+
+    @Inject
+    DispatchingAndroidInjector<Fragment> connectFragmentInjector;
 
     @Inject
     public ConnectFragment(){
@@ -57,4 +63,8 @@ public class ConnectFragment extends DaggerFragment {
         super.onDestroyView();
     }
 
+    @Override
+    public AndroidInjector<Fragment> supportFragmentInjector() {
+        return connectFragmentInjector;
+    }
 }
